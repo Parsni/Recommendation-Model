@@ -1,0 +1,60 @@
+{
+  "column_mapping": {
+    "interactions": {
+      "user_id": "prompt_id",
+      "item_id": "model_id",
+      "interaction_value": "quality_score",
+      "timestamp": "timestamp",
+      "required": ["prompt_id", "model_id"]
+    },
+    "users": {
+      "user_id": "prompt_id",
+      "categorical_fields": ["task_category", "language"],
+      "numerical_fields": [],
+      "optional": true
+    },
+    "items": {
+      "item_id": "model_id",
+      "categorical_fields": ["modality", "pricing"],
+      "numerical_fields": [],
+      "text_fields": ["best_for", "description"],
+      "optional": true
+    }
+  },
+  "preprocessing": {
+    "value_aggregation": "mean",
+    "deduplicate_key": ["user_id", "item_id", "timestamp"]
+  },
+  "hybrid": {
+    "top_k": 4,
+    "exclude_seen": false,
+    "diversify": false,
+    "normalize": "minmax",
+    "weights": {
+      "popularity": 0.25,
+      "content_based": 0.25,
+      "item_similarity": 0.25,
+      "collaborative": 0.25,
+      "association": 0.25
+    },
+    "seed_top_n": 6
+  },
+  "collaborative": { "n_components": 6 },
+  "thresholds": {
+    "min_users_for_cf": 10,
+    "min_items_for_cf": 6,
+    "min_interactions_per_user": 2,
+    "min_total_interactions": 30,
+    "min_baskets_for_association": 10,
+    "min_item_support": 0.03,
+    "min_confidence": 0.1,
+    "min_basket_value": 3.0,
+    "max_matrix_density_for_cf": 0.9
+  },
+  "evaluation": {
+    "top_k": 4,
+    "min_train_per_user": 1,
+    "split_strategy": "chronological_last_out"
+  },
+  "random_seed": 42
+}

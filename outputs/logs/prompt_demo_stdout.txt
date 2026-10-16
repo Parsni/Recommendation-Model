@@ -1,0 +1,38 @@
+{
+  "dataset": "data/prompt_rec (PLACEHOLDER trial ratings, not benchmark results)",
+  "engine_build_ms": 43.6,
+  "prompts": 21,
+  "ai_models": 8,
+  "trials": 63,
+  "matrix_density": 0.375,
+  "algorithms_enabled": [
+    "association",
+    "collaborative",
+    "content_based",
+    "item_similarity",
+    "popularity"
+  ],
+  "algorithms_excluded": {},
+  "score_kinds": [
+    "normalized_ranking_score"
+  ],
+  "suggestions_table": "D:\\Recommendation Model\\recommendation_engine\\outputs\\tables\\prompt_ai_model_suggestions.csv",
+  "recommend_latency_ms_mean": 7.6,
+  "model_trial_stats_table": "D:\\Recommendation Model\\recommendation_engine\\outputs\\tables\\prompt_model_trial_stats.csv",
+  "model_by_category_table": "D:\\Recommendation Model\\recommendation_engine\\outputs\\tables\\prompt_model_mean_by_category.csv",
+  "chart": "D:\\Recommendation Model\\recommendation_engine\\outputs\\figures\\prompt_model_mean_scores.png",
+  "evaluation_wall_ms": 66.3,
+  "evaluation": {
+    "strategy": "per-user chronological last-out: train excludes each user's two most recent interactions; validation = second-last, test = last; only users with >= 3 interactions; K=4",
+    "evaluated_prompts": 18,
+    "test_table": "D:\\Recommendation Model\\recommendation_engine\\outputs\\tables\\prompt_eval_comparison.csv",
+    "ndcg_by_method": {
+      "popularity": 0.6052,
+      "hybrid": 0.5833,
+      "content_based": 0.4467,
+      "item_similarity": 0.0,
+      "association": 0.0
+    },
+    "limitations": "Single-split evaluation on one dataset; hit-rate standard error shown but no significance testing across methods; synthetic-data results do not imply real-world effectiveness."
+  }
+}

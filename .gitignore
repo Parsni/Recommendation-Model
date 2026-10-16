@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+outputs/figures/*.png
+outputs/tables/*.csv
+outputs/logs/*.log
+outputs/logs/*.jsonl
+outputs/telemetry/*.db
+*.db
+.streamlit/
+*.session.sql
+.DS_Store

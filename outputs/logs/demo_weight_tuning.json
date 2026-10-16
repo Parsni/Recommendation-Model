@@ -1,0 +1,48 @@
+{
+  "strategy": "per-user chronological last-out: train excludes each user's two most recent interactions; validation = second-last, test = last; only users with >= 5 interactions; K=5",
+  "n_eval_users": 30,
+  "weight_tuning": {
+    "best_weights": {
+      "association": 0.2,
+      "collaborative": 0.2,
+      "content_based": 0.2,
+      "item_similarity": 0.2,
+      "popularity": 0.2
+    },
+    "best_val_ndcg": 0.129,
+    "trials": [
+      {
+        "weights": {
+          "association": 0.2,
+          "collaborative": 0.2,
+          "content_based": 0.2,
+          "item_similarity": 0.2,
+          "popularity": 0.2
+        },
+        "hybrid_ndcg": 0.129
+      },
+      {
+        "weights": {
+          "association": 0.1,
+          "collaborative": 0.1,
+          "content_based": 0.1,
+          "item_similarity": 0.1,
+          "popularity": 0.6
+        },
+        "hybrid_ndcg": 0.129
+      },
+      {
+        "weights": {
+          "association": 0.25,
+          "collaborative": 0.25,
+          "content_based": 0.25,
+          "item_similarity": 0.25
+        },
+        "hybrid_ndcg": 0.129
+      }
+    ],
+    "note": "Weights selected on validation split only; test outcomes were not consulted. Equal weights are a starting configuration, not an optimum claim."
+  },
+  "beats_baseline": true,
+  "limitations": "Single-split evaluation on one dataset; hit-rate standard error shown but no significance testing across methods; synthetic-data results do not imply real-world effectiveness."
+}

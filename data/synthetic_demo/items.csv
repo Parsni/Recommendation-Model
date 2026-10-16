@@ -1,0 +1,21 @@
+item_id,category,description,price
+I001,cat_alpha,compact solar garden light weatherproof outdoor lantern patio illumination,17
+I002,cat_alpha,rechargeable led garden lamp solar powered outdoor lighting path glow,24
+I003,cat_alpha,solar patio lantern weatherproof garden lighting outdoor dusk illumination,31
+I004,cat_alpha,outdoor solar pathway light weather resistant garden lamp evening glow,38
+I005,cat_beta,stainless coffee brewing kettle temperature control pour over caffeine,45
+I006,cat_beta,gooseneck kettle precision temperature barista coffee pour caffeine brew,52
+I007,cat_beta,thermal carafe coffee maker insulated brew caffeine morning preparation,59
+I008,cat_beta,espresso moka pot stovetop coffee brewing rich caffeine preparation,66
+I009,cat_gamma,lightweight running shoe cushioned marathon training athletic jog,73
+I010,cat_gamma,breathable road running sneakers foam cushion marathon athletic training,80
+I011,cat_gamma,trail running shoes gripped sole marathon training athletic jogging,87
+I012,cat_gamma,cushioned sprint running flats lightweight tempo training athletic shoe,94
+I013,cat_common,universal power adapter fast charging cable compatible accessory device,101
+I014,cat_misc,uncategorized spare product number 014 no history yet,108
+I015,cat_misc,uncategorized spare product number 015 no history yet,115
+I016,cat_misc,uncategorized spare product number 016 no history yet,122
+I017,cat_misc,uncategorized spare product number 017 no history yet,129
+I018,cat_misc,uncategorized spare product number 018 no history yet,136
+I019,cat_misc,uncategorized spare product number 019 no history yet,143
+I020,cat_misc,uncategorized spare product number 020 no history yet,150

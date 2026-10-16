@@ -1,0 +1,96 @@
+{
+  "system_name": "Multi-Criteria LLM Selection & Contextual Routing Engine",
+  "version": "2.1.0",
+  "models": {
+    "gpt-4o": {
+      "display_name": "GPT-4o",
+      "provider": "OpenAI",
+      "tier": "Flagship Balanced",
+      "cost_input_per_million": 2.50,
+      "cost_output_per_million": 10.00,
+      "baseline_latency_ms": 400.0,
+      "per_token_latency_ms": 12.0,
+      "is_fallback_candidate": true
+    },
+    "claude-3-5-sonnet": {
+      "display_name": "Claude 3.5 Sonnet",
+      "provider": "Anthropic",
+      "tier": "Flagship Reasoning & Writing",
+      "cost_input_per_million": 3.00,
+      "cost_output_per_million": 15.00,
+      "baseline_latency_ms": 550.0,
+      "per_token_latency_ms": 15.0,
+      "is_fallback_candidate": true
+    },
+    "deepseek-r1": {
+      "display_name": "DeepSeek R1",
+      "provider": "DeepSeek / Open-Weights",
+      "tier": "Deep Mathematical & Logical Reasoning",
+      "cost_input_per_million": 0.55,
+      "cost_output_per_million": 2.19,
+      "baseline_latency_ms": 650.0,
+      "per_token_latency_ms": 18.0,
+      "is_fallback_candidate": false
+    },
+    "qwen-2.5-coder-32b": {
+      "display_name": "Qwen 2.5 Coder 32B",
+      "provider": "Alibaba / Open-Weights",
+      "tier": "Specialized Code Engineering",
+      "cost_input_per_million": 0.20,
+      "cost_output_per_million": 0.20,
+      "baseline_latency_ms": 200.0,
+      "per_token_latency_ms": 6.5,
+      "is_fallback_candidate": false
+    },
+    "gemini-1.5-pro": {
+      "display_name": "Gemini 1.5 Pro",
+      "provider": "Google",
+      "tier": "Large Context & Search Synthesis",
+      "cost_input_per_million": 1.25,
+      "cost_output_per_million": 5.00,
+      "baseline_latency_ms": 480.0,
+      "per_token_latency_ms": 13.5,
+      "is_fallback_candidate": false
+    },
+    "llama-3.1-70b": {
+      "display_name": "Llama 3.1 70B",
+      "provider": "Meta / Self-Hosted",
+      "tier": "High Throughput & Low Latency",
+      "cost_input_per_million": 0.35,
+      "cost_output_per_million": 0.40,
+      "baseline_latency_ms": 220.0,
+      "per_token_latency_ms": 7.0,
+      "is_fallback_candidate": false
+    },
+    "gpt-4o-mini": {
+      "display_name": "GPT-4o Mini",
+      "provider": "OpenAI",
+      "tier": "Cost-Effective Fast Utility",
+      "cost_input_per_million": 0.15,
+      "cost_output_per_million": 0.60,
+      "baseline_latency_ms": 250.0,
+      "per_token_latency_ms": 8.0,
+      "is_fallback_candidate": false
+    }
+  },
+  "default_weights": {
+    "w_success": 0.65,
+    "w_similarity": 0.15,
+    "w_cost": 0.10,
+    "w_latency": 0.10
+  },
+  "failsafe": {
+    "critical_success_threshold": 0.40,
+    "critical_composite_threshold": 0.35,
+    "fallback_model": "gpt-4o"
+  },
+  "sanitizer": {
+    "min_chars": 3,
+    "max_bytes": 10485760,
+    "strip_markdown_injections": true
+  },
+  "clustering": {
+    "n_clusters": 4,
+    "random_state": 42
+  }
+}

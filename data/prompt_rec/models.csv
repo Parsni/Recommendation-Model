@@ -1,0 +1,9 @@
+model_id,provider_label,best_for,modality,pricing,description
+M_gpt,chat assistant (GPT-style),"general chat, coding, writing, analysis, multimodal",text+image,freemium,"general chat, coding, writing, analysis, multimodal"
+M_claude,chat assistant (Claude-style),"long form writing, careful reasoning, coding, document analysis",text,freemium,"long form writing, careful reasoning, coding, document analysis"
+M_gemini,chat assistant (Gemini-style),"multimodal questions, translation, search integrated answers",text+image,freemium,"multimodal questions, translation, search integrated answers"
+M_deepseek,open reasoning model,"math, coding, step by step logical solutions",text,free budget,"math, coding, step by step logical solutions"
+M_copilot,ide assistant,"in editor code completion, refactoring, unit test scaffolding",code,subscription,"in editor code completion, refactoring, unit test scaffolding"
+M_perplexity,answer engine,research questions needing fresh web sources and citations,text,freemium,research questions needing fresh web sources and citations
+M_midjourney,image generator,"stylized artistic images, concept art, logo mockups",image,subscription,"stylized artistic images, concept art, logo mockups"
+M_sdxl,open image model,photoreal images and local control with prompt weighting,image,open source,photoreal images and local control with prompt weighting

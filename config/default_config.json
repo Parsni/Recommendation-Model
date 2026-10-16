@@ -1,0 +1,61 @@
+{
+  "column_mapping": {
+    "interactions": {
+      "user_id": "user_id",
+      "item_id": "item_id",
+      "interaction_value": "interaction_value",
+      "timestamp": "timestamp",
+      "required": ["user_id", "item_id"]
+    },
+    "users": {
+      "user_id": "user_id",
+      "categorical_fields": ["age_band", "region"],
+      "numerical_fields": ["age"],
+      "optional": true
+    },
+    "items": {
+      "item_id": "item_id",
+      "categorical_fields": ["category"],
+      "numerical_fields": ["price"],
+      "text_fields": ["description"],
+      "optional": true
+    }
+  },
+  "preprocessing": {
+    "value_aggregation": "mean",
+    "deduplicate_key": ["user_id", "item_id", "timestamp"]
+  },
+  "hybrid": {
+    "top_k": 5,
+    "exclude_seen": true,
+    "diversify": false,
+    "normalize": "minmax",
+    "weights": {
+      "popularity": 0.25,
+      "content_based": 0.25,
+      "item_similarity": 0.25,
+      "collaborative": 0.25,
+      "association": 0.25
+    },
+    "seed_top_n": 8
+  },
+  "thresholds": {
+    "min_users_for_cf": 10,
+    "min_items_for_cf": 10,
+    "min_interactions_per_user": 2,
+    "min_total_interactions": 20,
+    "min_baskets_for_association": 10,
+    "min_item_support": 0.02,
+    "min_confidence": 0.1,
+    "max_matrix_density_for_cf": 0.9
+  },
+  "collaborative": {
+    "n_components": 8
+  },
+  "evaluation": {
+    "top_k": 5,
+    "min_train_per_user": 3,
+    "split_strategy": "chronological_last_out"
+  },
+  "random_seed": 42
+}

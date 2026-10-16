@@ -1,0 +1,9 @@
+anchor_id,category,prompt_text,description
+ANC_01,coding,Write an optimized Python function or script with complete unit tests and error handling.,Production coding and algorithm implementation
+ANC_02,creative_writing,Compose an engaging short story or narrative with vivid descriptions and pacing.,Creative storytelling and copy generation
+ANC_03,reasoning_math,Solve a multi-step mathematical calculus or probability problem step-by-step.,Formal reasoning and math derivations
+ANC_04,communication,Draft a formal corporate email or customer correspondence with professional diplomacy.,Corporate communication and outreach
+ANC_05,data_analysis,Analyze structured datasets compute descriptive statistics and generate summary reports.,Data aggregation and trend analysis
+ANC_06,factual_qa,Provide factual encyclopedic answers with exact dates figures and population counts.,Direct factual reference and trivia
+ANC_07,troubleshooting,Step by step troubleshooting guide to diagnose and fix mechanical or hardware faults.,Practical technical troubleshooting
+ANC_08,health_fitness,Design a personalized physical training and nutritional regimen for athletic goals.,Fitness and wellness planning

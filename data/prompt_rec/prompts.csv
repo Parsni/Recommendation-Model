@@ -1,0 +1,22 @@
+prompt_id,task_category,language,prompt_text
+P001,coding,en,write a python function to parse a csv file and compute column averages
+P002,coding,en,debug this react component that re-renders on every state change
+P003,coding,en,explain the difference between a stack and a queue with code examples
+P004,creative_writing,en,draft a short story opening about a lighthouse keeper in a storm
+P005,creative_writing,en,rewrite this product description in a witty friendly tone
+P006,creative_writing,en,write poem about monsoon season in mumbai for school assembly
+P007,image_generation,en,generate a logo mockup minimal fox silhouette orange gradient flat design
+P008,image_generation,en,create photorealistic interior design mockup scandinavian living room
+P009,image_generation,en,draw a fantasy island map with mountains rivers and hidden caves
+P010,reasoning_math,en,solve this probability puzzle three dice at least one six step by step
+P011,reasoning_math,en,prove by induction sum of first n odd numbers equals n squared
+P012,reasoning_math,en,two trains problem relative speed find meeting time show working
+P013,translation,hi,translate this formal business letter from english to hindi maintain politeness levels
+P014,translation,en,translate technical abstract from french to english keep terminology precise
+P015,translation,en,localize this app UI string set for japanese market casual register
+P016,data_analysis,en,analyze this sales csv find seasonality and summarize trends in table
+P017,data_analysis,en,build regression model on housing dataset report r2 and residual diagnostics
+P018,data_analysis,en,create pivot summary of survey responses by region and age band
+P019,research_summary,en,summarize latest peer reviewed papers on recommendation system evaluation metrics
+P020,research_summary,en,compare two cloud pricing pages and produce decision table with sources
+P021,research_summary,en,find statistics on remote work productivity 2024 cite original studies

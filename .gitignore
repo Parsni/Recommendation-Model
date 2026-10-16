@@ -7,8 +7,16 @@ outputs/figures/*.png
 outputs/tables/*.csv
 outputs/logs/*.log
 outputs/logs/*.jsonl
+outputs/logs/*.txt
+outputs/logs/*.json
 outputs/telemetry/*.db
 *.db
 .streamlit/
 *.session.sql
 .DS_Store
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+__pycache__/
+

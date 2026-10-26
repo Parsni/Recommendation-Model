@@ -1,0 +1,8 @@
+{
+  "metric_a_mean": 0.8808,
+  "metric_a_std": 0.0477,
+  "metric_b_mean": 0.5526,
+  "metric_b_std": 0.0092,
+  "folds": 5,
+  "seed": 42
+}

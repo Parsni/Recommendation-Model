@@ -68,7 +68,14 @@ class LLMSelectionRoutingEngine:
         self.context_bridge = ContextEnrichmentBridge(self.clusterer, num_anchors=8)
 
         # Layer 3: Cognitive Inference Layer
-        self.classifier_ensemble = LogisticRegressionEnsemble(model_names=self.model_names, regularization_c=1.0)
+        inf_cfg = self.config.get("inference", {})
+        self.classifier_ensemble = LogisticRegressionEnsemble(
+            model_names=self.model_names,
+            regularization_c=inf_cfg.get("regularization_c", 1.0),
+            bt_blend=inf_cfg.get("bt_blend", 0.85),
+            domain_affinity_scale=inf_cfg.get("domain_affinity_scale", 4.0),
+            domain_min_games=inf_cfg.get("domain_min_games", 8.0),
+        )
         self.resource_regressors = DualHeadRidgeRegressorNetwork(model_specs=models_cfg, alpha=1.0)
 
         # Layer 4: Multi-Criteria Scoring & Optimizer

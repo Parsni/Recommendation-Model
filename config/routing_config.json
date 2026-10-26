@@ -32,14 +32,14 @@
       "per_token_latency_ms": 18.0,
       "is_fallback_candidate": false
     },
-    "qwen-2.5-coder-32b": {
-      "display_name": "Qwen 2.5 Coder 32B",
+    "qwen3-235b-a22b": {
+      "display_name": "Qwen3 235B A22B",
       "provider": "Alibaba / Open-Weights",
-      "tier": "Specialized Code Engineering",
-      "cost_input_per_million": 0.20,
-      "cost_output_per_million": 0.20,
-      "baseline_latency_ms": 200.0,
-      "per_token_latency_ms": 6.5,
+      "tier": "Flagship Open-Weights Reasoning & Code",
+      "cost_input_per_million": 0.35,
+      "cost_output_per_million": 1.40,
+      "baseline_latency_ms": 450.0,
+      "per_token_latency_ms": 14.0,
       "is_fallback_candidate": false
     },
     "gemini-1.5-pro": {
@@ -74,10 +74,10 @@
     }
   },
   "default_weights": {
-    "w_success": 0.65,
+    "w_success": 0.70,
     "w_similarity": 0.15,
-    "w_cost": 0.10,
-    "w_latency": 0.10
+    "w_cost": 0.08,
+    "w_latency": 0.07
   },
   "failsafe": {
     "critical_success_threshold": 0.40,
@@ -92,5 +92,13 @@
   "clustering": {
     "n_clusters": 4,
     "random_state": 42
+  },
+  "inference": {
+    "regularization_c": 0.3,
+    "bt_blend": 0.85,
+    "domain_affinity_scale": 6.0,
+    "domain_min_games": 8.0,
+    "training_data": "data/routing/arena_battles_real.csv",
+    "training_data_fallback": "data/routing/pairwise_comparisons.csv"
   }
 }

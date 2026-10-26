@@ -12,6 +12,7 @@ from typing import Dict, Any, Optional
 from src.routing.featurizer import StructuralFeatures
 from src.routing.clustering import IntentClusterer
 from src.routing.anchor_similarity import AnchorMatchResult
+from src.routing.domains import DOMAINS, detect_domain
 
 
 @dataclass
@@ -26,6 +27,7 @@ class EnrichedContext:
     nearest_anchor_id: str
     feature_vector: np.ndarray
     feature_names: list[str]
+    domain: str = "general"
 
 
 class ContextEnrichmentBridge:
@@ -85,6 +87,12 @@ class ContextEnrichmentBridge:
             feats.append(val)
             names.append(f"anchor_sim_{i}")
 
+        # 4. Prompt domain one-hot (appended last so legacy feature indices stay stable)
+        domain = detect_domain(sanitized_prompt)
+        for d in DOMAINS:
+            feats.append(1.0 if d == domain else 0.0)
+            names.append(f"domain_{d}")
+
         feature_block = np.array(feats, dtype=np.float32)
 
         return EnrichedContext(
@@ -96,5 +104,6 @@ class ContextEnrichmentBridge:
             anchor_similarity=anchor_match.max_similarity,
             nearest_anchor_id=anchor_match.nearest_anchor_id,
             feature_vector=feature_block,
-            feature_names=names
+            feature_names=names,
+            domain=domain
         )

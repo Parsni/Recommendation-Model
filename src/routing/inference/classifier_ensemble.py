@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from sklearn.linear_model import LogisticRegression
 from typing import Dict, List, Tuple, Any, Optional
 
+from src.routing.domains import DOMAINS, detect_domain
+
 
 @dataclass
 class ModelSuccessProbability:
@@ -22,12 +24,35 @@ class ModelSuccessProbability:
     confidence_interval: Tuple[float, float]
 
 
+# Pre-data fallback affinities (used only if the ensemble was fitted without
+# learnable domain outcomes). Live values are learned from real battle data.
+LEGACY_DOMAIN_AFFINITIES: Dict[str, Dict[str, float]] = {
+    "deepseek-r1": {"math": 7.5, "code": 0.5, "creative": -4.0, "doc": 0.2, "comm": -2.5, "qa": -2.0, "general": 0.5},
+    "claude-3-5-sonnet": {"math": 0.5, "code": 1.2, "creative": 9.5, "doc": 2.5, "comm": 7.5, "qa": 0.5, "general": 2.5},
+    "qwen-2.5-coder-32b": {"math": 0.2, "code": 6.5, "creative": -5.0, "doc": -1.0, "comm": -3.5, "qa": 0.5, "general": 0.8},
+    "gpt-4o": {"math": 1.5, "code": 2.8, "creative": -0.5, "doc": 1.8, "comm": 1.5, "qa": 1.0, "general": 4.0},
+    "gemini-1.5-pro": {"math": 0.5, "code": 0.6, "creative": 1.2, "doc": 7.5, "comm": 1.5, "qa": 1.2, "general": 1.5},
+    "llama-3.1-70b": {"math": -2.5, "code": 0.4, "creative": -1.5, "doc": 0.5, "comm": 0.2, "qa": 6.0, "general": 1.2},
+    "gpt-4o-mini": {"math": -2.0, "code": 0.5, "creative": -1.5, "doc": 0.4, "comm": 0.5, "qa": 5.5, "general": 1.0},
+}
+
+
 class LogisticRegressionEnsemble:
     """Ensemble of Logistic Regression models predicting P(Success) across LLM candidates."""
 
-    def __init__(self, model_names: List[str], regularization_c: float = 1.0) -> None:
+    def __init__(
+        self,
+        model_names: List[str],
+        regularization_c: float = 1.0,
+        bt_blend: float = 0.85,
+        domain_affinity_scale: float = 4.0,
+        domain_min_games: float = 8.0,
+    ) -> None:
         self.model_names = sorted(list(set(model_names)))
         self.regularization_c = regularization_c
+        self.bt_blend = bt_blend
+        self.domain_affinity_scale = domain_affinity_scale
+        self.domain_min_games = domain_min_games
         self.model_to_idx = {name: i for i, name in enumerate(self.model_names)}
         self.num_models = len(self.model_names)
         
@@ -53,6 +78,7 @@ class LogisticRegressionEnsemble:
         self.is_fitted = False
         self.dim_features: Optional[int] = None
         self.empirical_win_rates: Dict[str, float] = {m: 0.5 for m in self.model_names}
+        self.domain_affinities: Dict[str, Dict[str, float]] = {}
 
     def fit(
         self,
@@ -135,6 +161,9 @@ class LogisticRegressionEnsemble:
             m: win_counts[m] / match_counts[m] for m in self.model_names
         }
 
+        # Learn per-domain, per-model preference affinities from battle outcomes
+        self._learn_domain_affinities(comparisons_df)
+
         # Fit Bradley-Terry Logistic Regression
         if X_bt:
             X_arr = np.array(X_bt)
@@ -157,6 +186,48 @@ class LogisticRegressionEnsemble:
 
         self.is_fitted = True
         return self
+
+    def _learn_domain_affinities(self, comparisons_df: pd.DataFrame) -> None:
+        """Derive per-domain, per-model utility affinities from real battle outcomes.
+
+        For each (domain, model) cell the win rate is estimated with a Beta(1, 1)
+        prior and shrunk toward the model's global win rate when the cell has
+        fewer than ``domain_min_games`` observations. Affinities are centered
+        logits (so they shift utilities relatively, not absolutely), scaled by
+        ``domain_affinity_scale``.
+        """
+        games: Dict[str, Dict[str, float]] = {m: {d: 0.0 for d in DOMAINS} for m in self.model_names}
+        wins: Dict[str, Dict[str, float]] = {m: {d: 0.0 for d in DOMAINS} for m in self.model_names}
+
+        for _, row in comparisons_df.iterrows():
+            m_a = str(row["model_a"]).strip()
+            m_b = str(row["model_b"]).strip()
+            if m_a not in self.model_to_idx or m_b not in self.model_to_idx:
+                continue
+            winner_col = str(row["winner"]).strip().lower()
+            winner = m_a if winner_col in ["model_a", m_a] else m_b
+            domain = detect_domain(str(row.get("prompt", "")) or "")
+            games[m_a][domain] += 1.0
+            games[m_b][domain] += 1.0
+            wins[winner][domain] += 1.0
+
+        affinities: Dict[str, Dict[str, float]] = {m: {} for m in self.model_names}
+        for domain in DOMAINS:
+            logits: Dict[str, float] = {}
+            for m in self.model_names:
+                g = games[m][domain]
+                w = wins[m][domain]
+                wr = (w + 1.0) / (g + 2.0)
+                if g < self.domain_min_games:
+                    lam = (g / self.domain_min_games) if g > 0.0 else 0.0
+                    wr = lam * wr + (1.0 - lam) * self.empirical_win_rates[m]
+                logits[m] = float(np.log(wr / (1.0 - wr)))
+            mean_logit = float(np.mean(list(logits.values())))
+            for m in self.model_names:
+                affinities[m][domain] = round(
+                    self.domain_affinity_scale * (logits[m] - mean_logit), 4
+                )
+        self.domain_affinities = affinities
 
     def predict_success_probabilities(
         self,
@@ -191,26 +262,12 @@ class LogisticRegressionEnsemble:
             b_m = float(coef[self.num_models * feat_dim + idx])
             utilities[m] = float(np.dot(w_m, x_eval) + b_m)
 
-        # 2. Contextual domain detection
-        domain_key = "general"
-        p_lower = (prompt_text or "").lower()
-
+        # 2. Contextual domain detection (shared with evaluation + featurizer)
         if prompt_text:
-            import re
-            if re.search(r"\b(integral|derivative|solve|calculus|proof|theorem|equation|eigenvalue|rational|irrational|riemann|exp\(x\)|x\^2|combinatorics|math)\b", p_lower):
-                domain_key = "math"
-            elif re.search(r"\b(python|script|function|def|class|sql|react|component|typescript|refactor|debug|api|docker|kubernetes|redis|algorithm|multiprocessing|code)\b", p_lower):
-                domain_key = "code"
-            elif re.search(r"\b(story|poem|haiku|scifi|fiction|satellite|narrative|saturn|novel|character|creative|essay|metaphor)\b", p_lower):
-                domain_key = "creative"
-            elif re.search(r"\b(50-page|100-page|regulatory|compliance|pdf|financial report|annual report|large document)\b", p_lower):
-                domain_key = "doc"
-            elif re.search(r"\b(email|diplomatic|contract|vendor|formal letter|greeting|corporate)\b", p_lower):
-                domain_key = "comm"
-            elif re.search(r"\b(capital|population|what is|how do i|workout|nutrition|fat loss|quick)\b", p_lower):
-                domain_key = "qa"
+            domain_key = detect_domain(prompt_text)
         else:
             # Feature-vector heuristic fallback for unit tests
+            domain_key = "general"
             code_sig = float(prompt_feature_vector[3]) if len(prompt_feature_vector) > 3 else 0.0
             math_sig = float(prompt_feature_vector[4]) if len(prompt_feature_vector) > 4 else 0.0
             if math_sig > 0.04:
@@ -220,15 +277,7 @@ class LogisticRegressionEnsemble:
             elif intent_label and "creative" in intent_label.lower():
                 domain_key = "creative"
 
-        domain_affinities = {
-            "deepseek-r1": {"math": 7.5, "code": 0.5, "creative": -4.0, "doc": 0.2, "comm": -2.5, "qa": -2.0, "general": 0.5},
-            "claude-3-5-sonnet": {"math": 0.5, "code": 1.2, "creative": 9.5, "doc": 2.5, "comm": 7.5, "qa": 0.5, "general": 2.5},
-            "qwen-2.5-coder-32b": {"math": 0.2, "code": 6.5, "creative": -5.0, "doc": -1.0, "comm": -3.5, "qa": 0.5, "general": 0.8},
-            "gpt-4o": {"math": 1.5, "code": 2.8, "creative": -0.5, "doc": 1.8, "comm": 1.5, "qa": 1.0, "general": 4.0},
-            "gemini-1.5-pro": {"math": 0.5, "code": 0.6, "creative": 1.2, "doc": 7.5, "comm": 1.5, "qa": 1.2, "general": 1.5},
-            "llama-3.1-70b": {"math": -2.5, "code": 0.4, "creative": -1.5, "doc": 0.5, "comm": 0.2, "qa": 6.0, "general": 1.2},
-            "gpt-4o-mini": {"math": -2.0, "code": 0.5, "creative": -1.5, "doc": 0.4, "comm": 0.5, "qa": 5.5, "general": 1.0},
-        }
+        domain_affinities = self.domain_affinities or LEGACY_DOMAIN_AFFINITIES
 
         for m in self.model_names:
             aff = domain_affinities.get(m, {}).get(domain_key, 0.0)
@@ -250,8 +299,9 @@ class LogisticRegressionEnsemble:
             except Exception:
                 p_pw = self.empirical_win_rates.get(m, 0.5)
 
-            # Ensemble weighted combination: 85% Bradley-Terry latent utility + 15% pointwise probability
-            p_combined = 0.85 * p_bt + 0.15 * p_pw
+            # Ensemble weighted combination: bt_blend share of the Bradley-Terry
+            # latent utility probability + (1 - bt_blend) pointwise probability
+            p_combined = self.bt_blend * p_bt + (1.0 - self.bt_blend) * p_pw
             
             # Bound strictly between [0.05, 0.98] to avoid uncalibrated degenerate certainty
             p_final = float(np.clip(p_combined, 0.05, 0.98))

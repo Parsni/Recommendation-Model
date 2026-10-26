@@ -1,0 +1,656 @@
+{
+  "results": [
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9282,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.678,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 27.0
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.927,
+      "metric_b": 0.5453,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.669,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 26.2
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.927,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.669,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 25.3
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9244,
+      "metric_b": 0.5441,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.653,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 26.4
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9244,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.653,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 27.5
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9232,
+      "metric_b": 0.5479,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.653,
+        "creative": 0.985,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 10.0
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9232,
+      "metric_b": 0.5441,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.645,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 26.8
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9219,
+      "metric_b": 0.5453,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.636,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.9
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9219,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.636,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.0
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9219,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.636,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.2
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9207,
+      "metric_b": 0.5479,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.628,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.0
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9207,
+      "metric_b": 0.5479,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.628,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 22.4
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9207,
+      "metric_b": 0.5441,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.628,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.2
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9207,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.628,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.2
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9207,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.628,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.8
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9194,
+      "metric_b": 0.5466,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.62,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 9.1
+    },
+    {
+      "regularization_c": 0.3,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9194,
+      "metric_b": 0.5466,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.62,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 24.5
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9194,
+      "metric_b": 0.5441,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.62,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 26.2
+    },
+    {
+      "regularization_c": 0.2,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9181,
+      "metric_b": 0.5466,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.612,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.9
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9181,
+      "metric_b": 0.5453,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.612,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 27.1
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9181,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.612,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 25.8
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9156,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.595,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 29.3
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9156,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.595,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 25.4
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5479,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.9
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5466,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.7
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.8
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.7
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.8
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.7
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 7167.1
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 6.0,
+      "metric_a": 0.9144,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 13.1
+    },
+    {
+      "regularization_c": 0.1,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9131,
+      "metric_b": 0.5466,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.579,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 8.6
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 5.0,
+      "metric_a": 0.9131,
+      "metric_b": 0.5428,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.579,
+        "creative": 1.0,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 1.0
+      },
+      "elapsed_s": 33.1
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.85,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9118,
+      "metric_b": 0.5453,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.587,
+        "creative": 0.985,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 0.998
+      },
+      "elapsed_s": 25.7
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.9,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9106,
+      "metric_b": 0.5453,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.579,
+        "creative": 0.985,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 0.998
+      },
+      "elapsed_s": 26.3
+    },
+    {
+      "regularization_c": 0.5,
+      "bt_blend": 0.95,
+      "domain_affinity_scale": 4.0,
+      "metric_a": 0.9081,
+      "metric_b": 0.5453,
+      "per_domain_a": {
+        "math": 0.977,
+        "code": 0.562,
+        "creative": 0.985,
+        "translation": 0.0,
+        "doc": 1.0,
+        "comm": 0.0,
+        "qa": 1.0,
+        "general": 0.998
+      },
+      "elapsed_s": 35.1
+    }
+  ],
+  "n_train": 3151,
+  "n_test": 794,
+  "target_metric_a": 0.9,
+  "total_elapsed_s": 7794.2
+}

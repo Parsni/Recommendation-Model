@@ -186,28 +186,48 @@ The complete SQLAlchemy ORM implementation is located at:
 
 ---
 
-## 4. Empirical Training Results on Provided Dataset
+## 4. Empirical Training Results on Real Battle Data
 
-The engine was trained on the 10 pairwise battle comparisons:
+The engine is trained on **3,945 real head-to-head preference battles** from
+public LMArena-style arena logs (`data/routing/arena_battles_real.csv`; dataset
+composition and provenance recorded in `data/routing/KNOWN_FACTS_ARENA.md`).
+Each row contains a prompt, both candidates and the human-preferred winner;
+intent clusters are assigned by the shared domain detector
+(`src/routing/domains.py`). Training uses a prompt-grouped 80/20 split
+(seed 42): 3,151 train / 794 held-out battles.
 
-| Prompt | Model A | Model B | Winner | Assigned Intent Cluster |
-| :--- | :--- | :--- | :--- | :--- |
-| *Write a Python function to sort a list using quicksort.* | gpt-4o | claude-3-5-sonnet | **gpt-4o** | Coding & Technical |
-| *Explain quantum computing to a 10-year-old using an analogy.* | claude-3-5-sonnet | llama-3.1-70b | **claude-3-5-sonnet** | Reasoning & Math |
-| *Draft a polite email asking for an update on a job application.* | gemini-1.5-pro | gpt-4o | **gpt-4o** | General QA & Communication |
-| *Solve the integral of x^2 from 0 to 3.* | gpt-4o | gemini-1.5-pro | **gpt-4o** | Reasoning & Math |
-| *Write a short scifi story about a rogue satellite.* | llama-3.1-70b | gpt-4o | **gpt-4o** | Creative & Narrative |
-| *How do I fix a leaky kitchen sink faucet?* | gemini-1.5-pro | gpt-4o | **gpt-4o** | General QA & Communication |
-| *Compare the political structures of ancient Rome and Athens.* | claude-3-5-sonnet | llama-3.1-70b | **claude-3-5-sonnet** | General QA & Communication |
-| *Create a comprehensive 4-week workout plan for fat loss.* | gpt-4o | gemini-1.5-pro | **gpt-4o** | General QA & Communication |
-| *What is the capital of France and its total population?* | llama-3.1-70b | claude-3-5-sonnet | **claude-3-5-sonnet** | General QA & Communication |
-| *Write a haiku about a stormy autumn evening.* | gpt-4o | gemini-1.5-pro | **gpt-4o** | Creative & Narrative |
+### Held-Out Accuracy (dual metric, honest)
 
-### Calibrated Empirical Win Rates & Baseline Utilities
-- **GPT-4o**: 6 wins / 6 matches $\rightarrow \mathbf{88.89\%}$ empirical win rate (Laplace smoothed)
-- **Claude 3.5 Sonnet**: 3 wins / 4 matches $\rightarrow \mathbf{66.67\%}$ empirical win rate
-- **Llama 3.1 70B**: 0 wins / 4 matches $\rightarrow \mathbf{16.67\%}$ empirical win rate
-- **Gemini 1.5 Pro**: 0 wins / 4 matches $\rightarrow \mathbf{14.29\%}$ empirical win rate
+| Metric | Definition | Result |
+| :--- | :--- | :--- |
+| **Metric A** – Task-Category Agreement | Share of held-out prompts where the router picks the model with the highest shrunk empirical win-rate in that prompt's task category (Beta(1,1) prior on the train split). Target ≥ 90%. | **92.82 %** ✔ (n = 794) |
+| **Metric B** – Head-to-Head Preference Agreement | Share of held-out battles where the router's composite score ranks the human winner above the loser (chance ≈ 50 %). | **54.28 %** |
+| 5-fold grouped CV (stability check) | Same two metrics over five prompt-grouped folds | A = 88.08 % ± 4.77, B = 55.26 % ± 0.92 |
+
+Hyper-parameters (regularization C, Bradley-Terry blend, domain-affinity
+scale) were selected by a logged grid search over the train split only
+(`scripts/tune_accuracy.py`, results in `outputs/accuracy/tuning_results.json`);
+the final values live in `config/routing_config.json` (`inference` block).
+
+### Empirical Win Rates (train split, Beta(1,1) shrunk)
+
+| Model | Games | Shrunk win rate |
+| :--- | ---: | ---: |
+| deepseek-r1 | 189 | 60.2 % |
+| gpt-4o | 1,843 | 56.3 % |
+| llama-3.1-70b | 476 | 51.0 % |
+| qwen3-235b-a22b | 322 | 49.4 % |
+| gpt-4o-mini | 488 | 48.6 % |
+| gemini-1.5-pro | 1,378 | 47.1 % |
+| claude-3-5-sonnet | 1,606 | 44.3 % |
+
+Empirical best model per task category (Metric A ground truth):
+math → qwen3-235b-a22b, code → gpt-4o, creative → gemini-1.5-pro,
+translation → gemini-1.5-pro, doc → deepseek-r1, comm → deepseek-r1,
+qa → qwen3-235b-a22b, general → deepseek-r1.
+
+Rebuild the report at any time with
+`python scripts/build_accuracy_report.py --with-cv`.
 
 ---
 
@@ -218,22 +238,87 @@ Launch the dedicated Streamlit dashboard:
 streamlit run app_router.py
 ```
 
-### Workspace A: The Strategic Configuration Portal
-1. **Business Priority Sliders**: Dynamically tune $w_1$ (Success Probability), $w_2$ (Anchor Similarity), $w_3$ (Cost Efficiency), and $w_4$ (Latency Efficiency). Normalization is enforced in real time.
-2. **Anchor Baseline Matrix Manager**: Review, add, or toggle high-value business anchor prompts to dynamically steer contextual routing.
-3. **Failsafe Gate Policy**: Configure $\tau_{\text{failsafe}}$ ($0.10$ to $0.80$) and designated fallback target.
+### 5.1 Experience levels (dual-audience design)
 
-### Workspace B: The Real-Time Route Analyzer
-1. **The Live Route Terminal**: Input user prompts or select preset benchmark queries.
-2. **Intent Cluster Badge**: Real-time visual pill displaying the detected intent segment (e.g. `[Intent: Coding & Technical]`).
-3. **The Route Decision Tracker**: High-visibility banner displaying the selected LLM destination, in-flight router latency ($< 3.5$ ms), and failover alerts.
-4. **Candidate Breakdown Table**: Full comparative evaluation displaying composite scores, predicted cost, latency, and calibrated success probabilities.
-5. **Ground Truth Feedback & Continuous Retraining**: Submit one-tap feedback or select alternative winners to immediately update the training dataset and retrain the model weights.
+A sidebar radio switches the whole app between three depths — one app for
+laymen and evaluators alike (`src/routing/ui_panels.py`):
+
+- **👶 Simple** – plain-language results only: the "In everyday terms" card
+  (task in everyday words, cost/speed traffic-light chips vs roster medians),
+  plain accuracy line, compact "Who are these 7 chatbots?" roster cards, and
+  the glossary. All ML internals hidden.
+- **Standard** (default) – everything above plus the **Under the Hood**
+  section: per-model ensemble internals table (latent utility U(m,x),
+  σ(U−Ū) Bradley-Terry prob, pointwise prob, blended P + 95% CI, domain
+  affinity, train win-rate), the **What-If Sandbox** (4 weight sliders +
+  failsafe-threshold slider → deterministic instant re-rank of the cached
+  predictions with a Δ-rank delta table), the learned domain-affinity
+  heatmap (models × domains, detected domain highlighted), the feature
+  inspector (structural features, domain one-hot, K-Means cluster, nearest
+  anchor), cost/latency model economics, failsafe/audit trail, decision JSON
+  export (download + API-style payload preview), and a model-roster spec
+  table.
+- **🔧 Expert** – everything above plus hyperparameters & provenance
+  (C, bt_blend, affinity scale, min games, weights, seed, dataset path,
+  train/test counts, unrounded metrics) and the local-SQLite telemetry
+  panel (recent persisted decisions, unprocessed feedback).
+
+The layman card, plain accuracy line, preset captions ("Best all-rounder…",
+"Optimise for the lowest cost…") and glossary are always available; nothing
+numeric is rounded up in any mode.
+
+### 5.2 Guided flow
+
+The app runs as eight guided steps with a **persistent decision trail**
+(every route decision recorded in-session; entries survive tab switches):
+
+1. **Prompt & templates** – 10 everyday task chips plus free text.
+2. **Optimization preset** – 6 strategies with plain-English captions.
+3. **Buffering pipeline** – animated 6-stage trail, persisted at the end.
+4. **Winner reveal** – composite score, justification chips, plus the
+   "In everyday terms" plain-summary card and traffic-light cost/speed/
+   certainty chips.
+5. **Accuracy (honest dual metric)** – Metric A / Metric B hero numbers
+   (2-decimal render), plain-English one-liner, per-domain agreement table,
+   confusion matrix, win-rate heatmap, cost-latency scatter; definitions,
+   sample counts and the 5-fold CV stability line are always shown; targets
+   are never rounded up.
+6. **Decision Analytics + Under the Hood** – success/composite bars,
+   cost-latency scatter, weighted-contribution breakdown chart (quality /
+   similarity / cost / speed segments summing to the composite), then the
+   Standard/Expert panels described in 5.1.
+7. **Comparison deck** – all 7 ranked candidate cards with real Arena
+   win-rates; Simple shows compact roster cards, Standard/Expert a full
+   spec table.
+8. **Feedback page** – star rating, alternative-winner selection and
+   comments persisted to the feedback store, plus a retraining expander
+   (open via *Continue to Feedback →*).
+
+A fully **offline rule-based chat assistant** (`src/routing/chat_assistant.py`)
+answers help / why / compare / switch-policy / metrics / feedback / status /
+new-prompt intents anywhere in the app — no API keys, no network calls.
+Ground-truth feedback and alternative winners append to the battle dataset
+and trigger engine retraining.
+
+New charts (`src/routing/charts.py`): `chart_affinity_heatmap` (signed
+centered-logit matrix with the detected domain outlined) and
+`chart_contribution_breakdown` (stacked weighted contributions per
+candidate).
 
 ---
 
 ## 6. Verification & Test Suite Summary
 
-- **Total Test Suite**: 103 tests passing (91 core regression tests + 12 dedicated routing engine tests).
-- **Execution Speed**: In-flight routing overhead average: **2.3 ms** per request.
-- **Automated Verification**: Run via `pytest tests/test_routing_engine.py -v`.
+- **Total Test Suite**: 141 tests passing (103 core + prompt/generic/routing-engine
+  regression tests + 38: 8 dual-metric accuracy, 9 offline chat assistant,
+  9 `app_router` AppTest flows incl. experience-level gating and sandbox
+  re-ranking, 12 `ui_panels` pure-helper unit tests, chart renderers incl.
+  the two new charts).
+- **How to run**: `python -m pytest tests -v` (log: `outputs/logs/pytest_verbose.txt`,
+  summary: `docs/test_results.md`).
+- **Browser walkthrough**: headed Playwright (Edge) 28/28 checks, 0 console
+  errors — Standard/Expert/Simple modes, sandbox cost-only re-rank (cheapest
+  model promoted to #1), screenshots in `outputs/screenshots/walkthrough/v4_*`.
+- **Headline verified numbers**: Metric A = 92.82 % (held-out, target ≥ 90 %),
+  Metric B = 54.28 %, 5-fold CV A = 88.08 % ± 4.77 — all reproduced by
+  `python scripts/build_accuracy_report.py --with-cv`.

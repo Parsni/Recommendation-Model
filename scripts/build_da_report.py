@@ -379,6 +379,23 @@ bullets([
 
 # ------------------------------------------------------------------ section 8
 para("8. How to run and verify", style="Heading 2")
+para("8.1 Live Hosted Web Application", style="Heading 3")
+para("For immediate evaluation and demonstration without local setup, the Contextual LLM Routing "
+     "Engine is continuously deployed and publicly accessible online:")
+p_link = doc.add_paragraph()
+r_link = p_link.add_run("Live Application URL: https://recommendation-model-9hqhauougm6novjcgnubys.streamlit.app/")
+r_link.font.name = "Consolas"
+r_link.font.bold = True
+r_link.font.size = Pt(10)
+r_link.font.color.rgb = RGBColor(0x02, 0x84, 0xC7)
+
+para("Hosted on Streamlit Community Cloud infrastructure and directly synchronized with the project's "
+     "GitHub repository (github.com/Parsni/Recommendation-Model, main branch). The cloud instance runs in "
+     "headless mode with automated memory management, serving the Obsidian dark-themed UI, the live 6-stage "
+     "inference pipeline, all 10 benchmark task templates, real-time what-if weight tuning, and the audit "
+     "trail across desktop and mobile devices with zero local dependencies or API keys required.")
+
+para("8.2 Local Execution and Verification", style="Heading 3")
 code = (
     'cd "D:\\Recommendation Model\\recommendation_engine"\n'
     "\n"
